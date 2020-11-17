@@ -1,0 +1,43 @@
+---
+title: "Untitled"
+description: |
+  A new article created using the Distill format.
+author:
+  - name: Nora Jones 
+    url: https://example.com/norajones
+    affiliation: Spacely Sprockets
+    affiliation_url: https://example.com/spacelysprokets
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web. 
+
+Learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.
+
+```{r}
+require(tidyverse)
+require(readxl)
+
+Stock_Data = read_xlsx("Stock-Data.xlsx")
+Option_Data = read_xlsx("Option-Data.xlsx")
+
+# Stock Data Munging
+Stock_Data$Ticker <- paste(Stock_Data$Ticker, "LN Equity", sep=" ")
+
+# Filter out put option
+Compiled_Option_Data <- Option_Data %>% 
+  filter(Type != "Put") %>%
+  inner_join(Stock_Data, by = "Ticker")
+
+write_csv(Compiled_Option_Data, "Compiled_Option_Data.csv")
+
+```
+
+
+
+
