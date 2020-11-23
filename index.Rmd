@@ -342,8 +342,13 @@ As the model achieved the $R^2$ value of 0.8296, we observed that the model perf
 knitr::include_graphics("BS_Model_draft/output_75_0.png")
 ```
 
+Furthermore, plots of the predicted and actual prices can be seen as the below:
+
 ```{r layout="l-body-outset", echo=FALSE}
 knitr::include_graphics("BS_Model_draft/output_76_0.png")
+```
+```{r layout="l-body-outset", echo=FALSE}
+knitr::include_graphics("BS_Model_draft/output_80_0.png")
 ```
 
 Interestingly, we see a quite similar behavior to the model trained on synthetic (yet less noisy) data. Since we are only looking at portion of the SNP and UKX data, something worth exploring would be to scrape all of the SNP data and test the model again. 

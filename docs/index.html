@@ -1953,8 +1953,12 @@ mlp2.fit(X_train2, y_train2)</code></pre>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="BS_Model_draft/output_75_0.png" width="263" /></p>
 </div>
+<p>Furthermore, plots of the predicted and actual prices can be seen as the below:</p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="BS_Model_draft/output_76_0.png" width="263" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="BS_Model_draft/output_80_0.png" width="269" /></p>
 </div>
 <p>Interestingly, we see a quite similar behavior to the model trained on synthetic (yet less noisy) data. Since we are only looking at portion of the SNP and UKX data, something worth exploring would be to scrape all of the SNP data and test the model again.</p>
 <p>Regardless, we’ve shown that <strong>real options data follows somewhat closely the guidelines established by Black-Scholes</strong>, and that in this case, training on real data is better than training on synthetic data.</p>
