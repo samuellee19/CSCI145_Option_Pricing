@@ -12,13 +12,13 @@ The **Black-Scholes formula for European call and put options** are:
 
 $$C(S_0,t)=S_0N(d_1)-Ke^{-r(T-t)}N(d_2)$$
 $$P(S_0,t)=Ke^{-r(T-t)}N(-d_2)-S_0N(-d_1)$$
-where \
-- $S_0$: Stock Price \
-- $C(S_0,t)$: Price of the Call Option \
-- $K$: Exercise Price \
-- $(T-t)$: Time to Maturity, where T is Exercise Date \
-- $\sigma$: Underlying Volatility (a standard deviation of log returns) \
-- $r$: Risk-free Interest Rate (i.e., T-bill Rate) \
+where
+- $S_0$: Stock Price
+- $C(S_0,t)$: Price of the Call Option
+- $K$: Exercise Price
+- $(T-t)$: Time to Maturity, where T is Exercise Date
+- $\sigma$: Underlying Volatility (a standard deviation of log returns)
+- $r$: Risk-free Interest Rate (i.e., T-bill Rate)
 
 The $d_i$ variables are defined as:
 $$d_1=\frac{\ln\frac{S_0}{K}+(r+\frac{\sigma^2}{2})(T-t)}{\sigma\sqrt{T-t}}$$
@@ -29,10 +29,10 @@ Finally, $N(x)$ is cumulative distribution function for the standard normal dist
 
 
 ### Project Objectives
-In this project, we aim to do the following:\
-1. Recreate Culkin and Das' work\
-2. See whether fitted simulated model performs well on actual data \
-3. Observe if the model can perform better based on different datasets
+In this project, we aim to do the following:
+1) Recreate Culkin and Das' work\
+2) See whether fitted simulated model performs well on actual data \
+3) Observe if the model can perform better based on different datasets
 
 ## Methodologies
 ### Data
@@ -47,13 +47,13 @@ To train a neural network to learn the call option pricing equation, Culkin and 
 
 | Parameter              |   Range           |
 |:-----------------------|:------------------|
-| Stock Price $(S)$      | $10 — $50         |
-| Strike Price $(K)$     |  $7 — $650        |
+| Stock Price $(S)$      | \\$10 — \\$50     |
+| Strike Price $(K)$     |  \\$7 — \\$650    |
 | Maturity $(T-t)$       | 1 day to 3 years  |
 | Dividend Rate $(q)$    | 0\% — 3\%         |
 | Risk Free Rate $(r)$   | 1\% — 3\%         |
 | Volatility $(\sigma)$  | 5\% — 90\%        |
-| Call Price $(C)$       |  $0 — $328        |
+| Call Price $(C)$       |  \\$0 — \\$328    |
 
 In total, the dataset contains 300,000 observations.
 
@@ -359,20 +359,14 @@ np.random.seed(32)
 mlp.fit(X_train, y_train)
 ```
 
-    Iteration 1, loss = 0.00035534
-    Iteration 2, loss = 0.00009519
-    Iteration 3, loss = 0.00006493
-    Iteration 4, loss = 0.00004772
-    Iteration 5, loss = 0.00003906
-    Iteration 6, loss = 0.00003374
-    Iteration 7, loss = 0.00002936
-    Iteration 8, loss = 0.00002706
-    Iteration 9, loss = 0.00002523
-    Iteration 10, loss = 0.00002390
+    Iteration 1, loss = 0.00035527
+    Iteration 2, loss = 0.00009529
+    Iteration 3, loss = 0.00006484
+    Iteration 4, loss = 0.00004754
 
 
-    /opt/conda/envs/rapids/lib/python3.7/site-packages/sklearn/neural_network/_multilayer_perceptron.py:585: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (10) reached and the optimization hasn't converged yet.
-      % self.max_iter, ConvergenceWarning)
+    D:\Programs\anaconda3\lib\site-packages\sklearn\neural_network\_multilayer_perceptron.py:587: UserWarning: Training interrupted by user.
+      warnings.warn("Training interrupted by user.")
 
 
 
@@ -383,7 +377,7 @@ mlp.fit(X_train, y_train)
 
 
 
-Since it is important to save model for reproducibility, we will be saving the model in every phase:
+Since it is important to save model for reproducability, we will be saving the model in every phase:
 
 
 ```python
@@ -401,6 +395,10 @@ We start by exploring the most basic performance metric for every regression pro
 filename = 'models/BS_model.sav'
 mlp = pickle.load(open(filename, 'rb'))
 ```
+
+    D:\Programs\anaconda3\lib\site-packages\sklearn\base.py:329: UserWarning: Trying to unpickle estimator MLPRegressor from version 0.23.1 when using version 0.23.2. This might lead to breaking code or invalid results. Use at your own risk.
+      warnings.warn(
+
 
 
 ```python
@@ -427,9 +425,7 @@ plt.show()
 ```
 
 
-    
 ![png](output_27_0.png)
-    
 
 
 We can also explore the distribution of both the in-sample and out of sample error:
@@ -446,9 +442,7 @@ plt.show()
 ```
 
 
-    
 ![png](output_29_0.png)
-    
 
 
 
@@ -462,9 +456,7 @@ plt.show()
 ```
 
 
-    
 ![png](output_30_0.png)
-    
 
 
 
@@ -487,14 +479,14 @@ a.style.hide_index().set_table_attributes("style='display:inline'").set_caption(
 
 
 <style  type="text/css" >
-</style><table id="T_3c968dfa_2afb_11eb_a05e_0242c0a87f80" style='display:inline'><caption>Descriptive Statistics of Pricing Error in Training Set - Simulated</caption><thead>    <tr>        <th class="col_heading level0 col0" >nobs</th>        <th class="col_heading level0 col1" >minmax</th>        <th class="col_heading level0 col2" >mean</th>        <th class="col_heading level0 col3" >variance</th>        <th class="col_heading level0 col4" >skewness</th>        <th class="col_heading level0 col5" >kurtosis</th>    </tr></thead><tbody>
+</style><table id="T_c567d5b4_2d96_11eb_9d2f_48452069b526" style='display:inline'><caption>Descriptive Statistics of Pricing Error in Training Set - Simulated</caption><thead>    <tr>        <th class="col_heading level0 col0" >nobs</th>        <th class="col_heading level0 col1" >minmax</th>        <th class="col_heading level0 col2" >mean</th>        <th class="col_heading level0 col3" >variance</th>        <th class="col_heading level0 col4" >skewness</th>        <th class="col_heading level0 col5" >kurtosis</th>    </tr></thead><tbody>
                 <tr>
-                                <td id="T_3c968dfa_2afb_11eb_a05e_0242c0a87f80row0_col0" class="data row0 col0" >240000</td>
-                        <td id="T_3c968dfa_2afb_11eb_a05e_0242c0a87f80row0_col1" class="data row0 col1" >(-0.04503973715887655, 0.038556769019683426)</td>
-                        <td id="T_3c968dfa_2afb_11eb_a05e_0242c0a87f80row0_col2" class="data row0 col2" >-0.003111</td>
-                        <td id="T_3c968dfa_2afb_11eb_a05e_0242c0a87f80row0_col3" class="data row0 col3" >0.000007</td>
-                        <td id="T_3c968dfa_2afb_11eb_a05e_0242c0a87f80row0_col4" class="data row0 col4" >-0.400349</td>
-                        <td id="T_3c968dfa_2afb_11eb_a05e_0242c0a87f80row0_col5" class="data row0 col5" >12.083641</td>
+                                <td id="T_c567d5b4_2d96_11eb_9d2f_48452069b526row0_col0" class="data row0 col0" >240000</td>
+                        <td id="T_c567d5b4_2d96_11eb_9d2f_48452069b526row0_col1" class="data row0 col1" >(-0.04503973715887655, 0.038556769019683426)</td>
+                        <td id="T_c567d5b4_2d96_11eb_9d2f_48452069b526row0_col2" class="data row0 col2" >-0.003111</td>
+                        <td id="T_c567d5b4_2d96_11eb_9d2f_48452069b526row0_col3" class="data row0 col3" >0.000007</td>
+                        <td id="T_c567d5b4_2d96_11eb_9d2f_48452069b526row0_col4" class="data row0 col4" >-0.400349</td>
+                        <td id="T_c567d5b4_2d96_11eb_9d2f_48452069b526row0_col5" class="data row0 col5" >12.083641</td>
             </tr>
     </tbody></table>
 
@@ -510,14 +502,14 @@ b.style.hide_index().set_table_attributes("style='display:inline'").set_caption(
 
 
 <style  type="text/css" >
-</style><table id="T_ee7c69fe_2afb_11eb_a05e_0242c0a87f80" style='display:inline'><caption>Descriptive Statistics of Pricing Error in Test Set - Simulated</caption><thead>    <tr>        <th class="col_heading level0 col0" >nobs</th>        <th class="col_heading level0 col1" >minmax</th>        <th class="col_heading level0 col2" >mean</th>        <th class="col_heading level0 col3" >variance</th>        <th class="col_heading level0 col4" >skewness</th>        <th class="col_heading level0 col5" >kurtosis</th>    </tr></thead><tbody>
+</style><table id="T_c569cfdd_2d96_11eb_a879_48452069b526" style='display:inline'><caption>Descriptive Statistics of Pricing Error in Test Set - Simulated</caption><thead>    <tr>        <th class="col_heading level0 col0" >nobs</th>        <th class="col_heading level0 col1" >minmax</th>        <th class="col_heading level0 col2" >mean</th>        <th class="col_heading level0 col3" >variance</th>        <th class="col_heading level0 col4" >skewness</th>        <th class="col_heading level0 col5" >kurtosis</th>    </tr></thead><tbody>
                 <tr>
-                                <td id="T_ee7c69fe_2afb_11eb_a05e_0242c0a87f80row0_col0" class="data row0 col0" >11841</td>
-                        <td id="T_ee7c69fe_2afb_11eb_a05e_0242c0a87f80row0_col1" class="data row0 col1" >(-1.406634871550537, 204.1845735730094)</td>
-                        <td id="T_ee7c69fe_2afb_11eb_a05e_0242c0a87f80row0_col2" class="data row0 col2" >0.091134</td>
-                        <td id="T_ee7c69fe_2afb_11eb_a05e_0242c0a87f80row0_col3" class="data row0 col3" >10.956834</td>
-                        <td id="T_ee7c69fe_2afb_11eb_a05e_0242c0a87f80row0_col4" class="data row0 col4" >54.035579</td>
-                        <td id="T_ee7c69fe_2afb_11eb_a05e_0242c0a87f80row0_col5" class="data row0 col5" >3074.578127</td>
+                                <td id="T_c569cfdd_2d96_11eb_a879_48452069b526row0_col0" class="data row0 col0" >60000</td>
+                        <td id="T_c569cfdd_2d96_11eb_a879_48452069b526row0_col1" class="data row0 col1" >(-0.03991259932903224, 0.031677805872430874)</td>
+                        <td id="T_c569cfdd_2d96_11eb_a879_48452069b526row0_col2" class="data row0 col2" >-0.003110</td>
+                        <td id="T_c569cfdd_2d96_11eb_a879_48452069b526row0_col3" class="data row0 col3" >0.000007</td>
+                        <td id="T_c569cfdd_2d96_11eb_a879_48452069b526row0_col4" class="data row0 col4" >-0.529404</td>
+                        <td id="T_c569cfdd_2d96_11eb_a879_48452069b526row0_col5" class="data row0 col5" >12.293611</td>
             </tr>
     </tbody></table>
 
@@ -655,9 +647,7 @@ plt.show()
 ```
 
 
-    
 ![png](output_40_0.png)
-    
 
 
 From a quick glance, there seems to be some minor deviations. Let's see the $R^2$ for this regression:
@@ -682,9 +672,7 @@ plt.show()
 ```
 
 
-    
 ![png](output_44_0.png)
-    
 
 
 While the model performed worse relative to previous sample, it still achieved a high R-squared value considering that the training data and the test data came from different sources. Hence, the above graph is summarized as below:
@@ -699,14 +687,14 @@ a.style.hide_index().set_table_attributes("style='display:inline'").set_caption(
 
 
 <style  type="text/css" >
-</style><table id="T_3ca5e024_2aed_11eb_a05e_0242c0a87f80" style='display:inline'><caption>Descriptive Statistics: Simulation Model on UKX</caption><thead>    <tr>        <th class="col_heading level0 col0" >nobs</th>        <th class="col_heading level0 col1" >minmax</th>        <th class="col_heading level0 col2" >mean</th>        <th class="col_heading level0 col3" >variance</th>        <th class="col_heading level0 col4" >skewness</th>        <th class="col_heading level0 col5" >kurtosis</th>    </tr></thead><tbody>
+</style><table id="T_d6bf2ec4_2d96_11eb_97ed_48452069b526" style='display:inline'><caption>Descriptive Statistics: Simulation Model on UKX</caption><thead>    <tr>        <th class="col_heading level0 col0" >nobs</th>        <th class="col_heading level0 col1" >minmax</th>        <th class="col_heading level0 col2" >mean</th>        <th class="col_heading level0 col3" >variance</th>        <th class="col_heading level0 col4" >skewness</th>        <th class="col_heading level0 col5" >kurtosis</th>    </tr></thead><tbody>
                 <tr>
-                                <td id="T_3ca5e024_2aed_11eb_a05e_0242c0a87f80row0_col0" class="data row0 col0" >1685</td>
-                        <td id="T_3ca5e024_2aed_11eb_a05e_0242c0a87f80row0_col1" class="data row0 col1" >(-3088.616090144955, 0.35170913484653754)</td>
-                        <td id="T_3ca5e024_2aed_11eb_a05e_0242c0a87f80row0_col2" class="data row0 col2" >-28.827895</td>
-                        <td id="T_3ca5e024_2aed_11eb_a05e_0242c0a87f80row0_col3" class="data row0 col3" >44608.131476</td>
-                        <td id="T_3ca5e024_2aed_11eb_a05e_0242c0a87f80row0_col4" class="data row0 col4" >-10.456920</td>
-                        <td id="T_3ca5e024_2aed_11eb_a05e_0242c0a87f80row0_col5" class="data row0 col5" >123.587743</td>
+                                <td id="T_d6bf2ec4_2d96_11eb_97ed_48452069b526row0_col0" class="data row0 col0" >1685</td>
+                        <td id="T_d6bf2ec4_2d96_11eb_97ed_48452069b526row0_col1" class="data row0 col1" >(-3088.616090144955, 0.35170913484653743)</td>
+                        <td id="T_d6bf2ec4_2d96_11eb_97ed_48452069b526row0_col2" class="data row0 col2" >-28.827895</td>
+                        <td id="T_d6bf2ec4_2d96_11eb_97ed_48452069b526row0_col3" class="data row0 col3" >44608.131476</td>
+                        <td id="T_d6bf2ec4_2d96_11eb_97ed_48452069b526row0_col4" class="data row0 col4" >-10.456920</td>
+                        <td id="T_d6bf2ec4_2d96_11eb_97ed_48452069b526row0_col5" class="data row0 col5" >123.587743</td>
             </tr>
     </tbody></table>
 
@@ -721,7 +709,10 @@ To ameliorate the effect of having less data, we increased the number of epochs
 np.random.seed(32)
 X_train_ukx, X_test_ukx, y_train_ukx, y_test_ukx = train_test_split(ukx.drop('Call Price', axis=1), 
                                                     ukx['Call Price'], test_size=0.2)
+```
 
+
+```python
 mlp_u = MLPRegressor(hidden_layer_sizes=(100,100,100,100), 
                    solver='adam', shuffle = False, batch_size=64, verbose=True,
                    max_iter= 20
@@ -755,6 +746,10 @@ filename = 'models/BS_ukx_model.sav'
 mlp_u = pickle.load(open(filename, 'rb'))
 ```
 
+    D:\Programs\anaconda3\lib\site-packages\sklearn\base.py:329: UserWarning: Trying to unpickle estimator MLPRegressor from version 0.23.1 when using version 0.23.2. This might lead to breaking code or invalid results. Use at your own risk.
+      warnings.warn(
+
+
 
 ```python
 print("Training Set Score: %f" % mlp_u.score(X_train_ukx, y_train_ukx))
@@ -776,9 +771,7 @@ plt.show()
 ```
 
 
-    
-![png](output_51_0.png)
-    
+![png](output_52_0.png)
 
 
 
@@ -791,14 +784,14 @@ a.style.hide_index().set_table_attributes("style='display:inline'").set_caption(
 
 
 <style  type="text/css" >
-</style><table id="T_3d385f58_2aed_11eb_a05e_0242c0a87f80" style='display:inline'><caption>Descriptive Statistics: UKX Model</caption><thead>    <tr>        <th class="col_heading level0 col0" >nobs</th>        <th class="col_heading level0 col1" >minmax</th>        <th class="col_heading level0 col2" >mean</th>        <th class="col_heading level0 col3" >variance</th>        <th class="col_heading level0 col4" >skewness</th>        <th class="col_heading level0 col5" >kurtosis</th>    </tr></thead><tbody>
+</style><table id="T_fac8b813_2d96_11eb_b3e0_48452069b526" style='display:inline'><caption>Descriptive Statistics: UKX Model</caption><thead>    <tr>        <th class="col_heading level0 col0" >nobs</th>        <th class="col_heading level0 col1" >minmax</th>        <th class="col_heading level0 col2" >mean</th>        <th class="col_heading level0 col3" >variance</th>        <th class="col_heading level0 col4" >skewness</th>        <th class="col_heading level0 col5" >kurtosis</th>    </tr></thead><tbody>
                 <tr>
-                                <td id="T_3d385f58_2aed_11eb_a05e_0242c0a87f80row0_col0" class="data row0 col0" >337</td>
-                        <td id="T_3d385f58_2aed_11eb_a05e_0242c0a87f80row0_col1" class="data row0 col1" >(-0.31623338202718, 9.835618886098018)</td>
-                        <td id="T_3d385f58_2aed_11eb_a05e_0242c0a87f80row0_col2" class="data row0 col2" >0.163965</td>
-                        <td id="T_3d385f58_2aed_11eb_a05e_0242c0a87f80row0_col3" class="data row0 col3" >0.804381</td>
-                        <td id="T_3d385f58_2aed_11eb_a05e_0242c0a87f80row0_col4" class="data row0 col4" >7.900739</td>
-                        <td id="T_3d385f58_2aed_11eb_a05e_0242c0a87f80row0_col5" class="data row0 col5" >69.225675</td>
+                                <td id="T_fac8b813_2d96_11eb_b3e0_48452069b526row0_col0" class="data row0 col0" >337</td>
+                        <td id="T_fac8b813_2d96_11eb_b3e0_48452069b526row0_col1" class="data row0 col1" >(-0.31623338202718, 9.835618886098018)</td>
+                        <td id="T_fac8b813_2d96_11eb_b3e0_48452069b526row0_col2" class="data row0 col2" >0.163965</td>
+                        <td id="T_fac8b813_2d96_11eb_b3e0_48452069b526row0_col3" class="data row0 col3" >0.804381</td>
+                        <td id="T_fac8b813_2d96_11eb_b3e0_48452069b526row0_col4" class="data row0 col4" >7.900739</td>
+                        <td id="T_fac8b813_2d96_11eb_b3e0_48452069b526row0_col5" class="data row0 col5" >69.225675</td>
             </tr>
     </tbody></table>
 
@@ -927,12 +920,10 @@ plt.show()
 ```
 
 
-    
-![png](output_57_0.png)
-    
+![png](output_58_0.png)
 
 
-From the above, we can see that there seems to be more deviations than predictions made on previous data. To assess a relationship between the In-The-Money (ITM) call options and the Out-of-The-Money (OTM) call options, we plotted a new graph that is focused on a bottom-left cluster. In usual cases, OTM call options would have higher prices than the predicted points.
+From the above, we can see that there seems to be more deviations than predictions made on previous data. To assess a relationship between the In-The-Money (ITM) call options and the Out-of-The-Money (OTM) call options, we plotted a new graph that is focused on a bottom-left cluster. In the current environment, Black Scholes tends to misprice calls that are both deeply ITM or OTM. For more information about this phenomenon, we suggest to look up information on the [implied volatility smile](https://www.investopedia.com/terms/v/volatilitysmile.asp)
 
 
 ```python
@@ -940,21 +931,19 @@ X_snp_itm = snp[snp['Strike Price'] < snp['Stock Price']]
 X_snp_otm = snp[snp['Strike Price'] >= snp['Stock Price']] 
 Y_snp_itm = X_snp_itm['Call Price']
 Y_snp_otm = X_snp_otm['Call Price']
-plt.scatter(Y_snp_otm, mlp.predict(X_snp_otm.drop('Call Price', axis=1)), c='r', s=2)
 plt.scatter(Y_snp_itm, mlp.predict(X_snp_itm.drop('Call Price', axis=1)), s=2)
+plt.scatter(Y_snp_otm, mlp.predict(X_snp_otm.drop('Call Price', axis=1)), c='r', s=2)
 plt.ylabel("Predicted Price")
 plt.xlabel("Actual Price")
 plt.title("Actual vs Predicted Price")
-plt.xlim(0, 5)
-plt.ylim(0, 5)
-plt.legend(['OTM', 'ITM'])
+plt.xlim(0, 2)
+plt.ylim(0, 2)
+plt.legend(['ITM', 'OTM'])
 plt.show()
 ```
 
 
-    
-![png](output_59_0.png)
-    
+![png](output_60_0.png)
 
 
 The above graph exhibits what we have discussed in the above. Furthermore, while a variation is relatively higher, the model seems to find some success. In fact, we can see that $R^2$ value is:
@@ -981,9 +970,7 @@ plt.show()
 ```
 
 
-    
-![png](output_63_0.png)
-    
+![png](output_64_0.png)
 
 
 
@@ -1022,7 +1009,10 @@ np.random.seed(32)
 df2 = pd.concat([ukx, snp])
 X_train2, X_test2, y_train2, y_test2 = train_test_split(df2.drop('Call Price', axis=1), 
                                                     df2['Call Price'], test_size=0.2)
+```
 
+
+```python
 mlp2 = MLPRegressor(hidden_layer_sizes=(100,100,100,100), 
                    solver='adam', shuffle = False, batch_size=64, verbose=False,
                    max_iter= 20
@@ -1034,14 +1024,23 @@ filename = 'models/BS_final_model.sav'
 pickle.dump(mlp2, open(filename, 'wb'))
 ```
 
+    D:\Programs\anaconda3\lib\site-packages\sklearn\neural_network\_multilayer_perceptron.py:582: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (20) reached and the optimization hasn't converged yet.
+      warnings.warn(
+
+
+
+```python
+mlp2 = pickle.load(open(filename, 'rb'))
+```
+
 
 ```python
 print("Training set score: %f" % mlp2.score(X_train2, y_train2))
 print("Test set score: %f" % mlp2.score(X_test2, y_test2))
 ```
 
-    Training set score: 0.999435
-    Test set score: 0.999439
+    Training set score: 0.999941
+    Test set score: 0.999943
 
 
 Surprisingly, we observed from the above that there was an insignificant difference in a performance between the two models. Furthermore, we analyzed the pricing error of the real data model:
@@ -1057,9 +1056,7 @@ plt.show()
 ```
 
 
-    
-![png](output_70_0.png)
-    
+![png](output_73_0.png)
 
 
 
@@ -1072,14 +1069,14 @@ a.style.hide_index().set_table_attributes("style='display:inline'").set_caption(
 
 
 <style  type="text/css" >
-</style><table id="T_6c3ba030_2aed_11eb_a05e_0242c0a87f80" style='display:inline'><caption>Descriptive Statistics: Real Data Error</caption><thead>    <tr>        <th class="col_heading level0 col0" >nobs</th>        <th class="col_heading level0 col1" >minmax</th>        <th class="col_heading level0 col2" >mean</th>        <th class="col_heading level0 col3" >variance</th>        <th class="col_heading level0 col4" >skewness</th>        <th class="col_heading level0 col5" >kurtosis</th>    </tr></thead><tbody>
+</style><table id="T_9633c6e6_2d98_11eb_8b8b_48452069b526" style='display:inline'><caption>Descriptive Statistics: Real Data Error</caption><thead>    <tr>        <th class="col_heading level0 col0" >nobs</th>        <th class="col_heading level0 col1" >minmax</th>        <th class="col_heading level0 col2" >mean</th>        <th class="col_heading level0 col3" >variance</th>        <th class="col_heading level0 col4" >skewness</th>        <th class="col_heading level0 col5" >kurtosis</th>    </tr></thead><tbody>
                 <tr>
-                                <td id="T_6c3ba030_2aed_11eb_a05e_0242c0a87f80row0_col0" class="data row0 col0" >11841</td>
-                        <td id="T_6c3ba030_2aed_11eb_a05e_0242c0a87f80row0_col1" class="data row0 col1" >(-1.406634871550537, 204.1845735730094)</td>
-                        <td id="T_6c3ba030_2aed_11eb_a05e_0242c0a87f80row0_col2" class="data row0 col2" >0.091134</td>
-                        <td id="T_6c3ba030_2aed_11eb_a05e_0242c0a87f80row0_col3" class="data row0 col3" >10.956834</td>
-                        <td id="T_6c3ba030_2aed_11eb_a05e_0242c0a87f80row0_col4" class="data row0 col4" >54.035579</td>
-                        <td id="T_6c3ba030_2aed_11eb_a05e_0242c0a87f80row0_col5" class="data row0 col5" >3074.578127</td>
+                                <td id="T_9633c6e6_2d98_11eb_8b8b_48452069b526row0_col0" class="data row0 col0" >11841</td>
+                        <td id="T_9633c6e6_2d98_11eb_8b8b_48452069b526row0_col1" class="data row0 col1" >(-1.4149300780995988, 65.29475394211659)</td>
+                        <td id="T_9633c6e6_2d98_11eb_8b8b_48452069b526row0_col2" class="data row0 col2" >0.041074</td>
+                        <td id="T_9633c6e6_2d98_11eb_8b8b_48452069b526row0_col3" class="data row0 col3" >1.112086</td>
+                        <td id="T_9633c6e6_2d98_11eb_8b8b_48452069b526row0_col4" class="data row0 col4" >53.563095</td>
+                        <td id="T_9633c6e6_2d98_11eb_8b8b_48452069b526row0_col5" class="data row0 col5" >3044.092604</td>
             </tr>
     </tbody></table>
 
@@ -1095,7 +1092,7 @@ preds_synthetic= mlp2.predict(X_test)
 print("R-Squared Value: %.4f" % r2_score(y_test, preds_synthetic))
 ```
 
-    R-Squared Value: 0.8296
+    R-Squared Value: 0.7786
 
 
 We observed that the model performed slightly weaker, a smiliar result that we had seen from the above predictions. 
@@ -1110,9 +1107,7 @@ plt.show()
 ```
 
 
-    
-![png](output_75_0.png)
-    
+![png](output_78_0.png)
 
 
 
@@ -1121,8 +1116,8 @@ X_df2_itm = df2[df2['Strike Price'] < df2['Stock Price']]
 X_df2_otm = df2[df2['Strike Price'] >= df2['Stock Price']] 
 Y_df2_itm = X_df2_itm['Call Price']
 Y_df2_otm = X_df2_otm['Call Price']
-plt.scatter(Y_df2_otm, mlp2.predict(X_df2_otm.drop('Call Price', axis=1)), c='r', s=3)
 plt.scatter(Y_df2_itm, mlp2.predict(X_df2_itm.drop('Call Price', axis=1)), s=3)
+plt.scatter(Y_df2_otm, mlp2.predict(X_df2_otm.drop('Call Price', axis=1)), c='r', s=3)
 plt.ylabel("Predicted Price")
 plt.xlabel("Actual Price")
 plt.title("Actual vs Predicted Price")
@@ -1131,9 +1126,28 @@ plt.show()
 ```
 
 
-    
-![png](output_76_0.png)
-    
+![png](output_79_0.png)
+
+
+
+```python
+X_df2_itm = df2[df2['Strike Price'] < df2['Stock Price']]
+X_df2_otm = df2[df2['Strike Price'] >= df2['Stock Price']] 
+Y_df2_itm = X_df2_itm['Call Price']
+Y_df2_otm = X_df2_otm['Call Price']
+plt.scatter(Y_df2_itm, mlp2.predict(X_df2_itm.drop('Call Price', axis=1)), s=3)
+plt.scatter(Y_df2_otm, mlp2.predict(X_df2_otm.drop('Call Price', axis=1)), c='r', s=3)
+plt.ylabel("Predicted Price")
+plt.xlabel("Actual Price")
+plt.title("Actual vs Predicted Price")
+plt.xlim(0, 2)
+plt.ylim(0, 2)
+plt.legend(['OTM', 'ITM'])
+plt.show()
+```
+
+
+![png](output_80_0.png)
 
 
 Interestingly, we see a quite similar behavior to the model trained on synthetic (yet less noisy) data. Since we are only looking at portion of the SNP and UKX data, something worth exploring would be to scrape all of the SNP data and test the model again. 

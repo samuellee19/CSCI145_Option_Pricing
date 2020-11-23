@@ -1,5 +1,5 @@
 ---
-title: "Recreation of Professor Das' Deep Learning Application on the Black-Scholes Model"
+title: "Deep Learning Application on the Black-Scholes Model"
 description: |
   This project is conducted by [Juan Diego Herrera](https://github.com/jknaudt21) and [Seungho (Samuel) Lee](https://github.com/samuellee19). Here, we expand upon Robert Culkin's and Sanjiv R. Das' effort to recreate [the Black-Scholes option pricing model using neural networks](https://srdas.github.io/Papers/BlackScholesNN.pdf).
 author:
@@ -10,6 +10,7 @@ author:
     url: mailto:jknaudt21@students.cmc.edu
     affiliation: Claremont McKenna College
 date: "`r Sys.Date()`"
+bibliography: biblio.bib
 output: distill::distill_website
 ---
 
@@ -58,7 +59,7 @@ Aditionally, we queried UKX options data and the options' underlying stock infro
 
 #### 1. Culkin and Das (2017)
 
-To train a neural network to learn the call option pricing equation, Culkin and Das (2017) simulated a range of call option prices with ranges of different parameters:
+To train a neural network to learn the call option pricing equation, Culkin and Das (2017) simulated a range of call option prices with ranges of different parameters[@Culkin_Das_2017]:
 
 | Parameter              |   Range           |
 |:-----------------------|:------------------|
