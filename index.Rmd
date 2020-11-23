@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 ## Project Overview
 ### Background
-**The Black Scholes model** is used to price put and call options by estimating the variation over time said financial instruments. The model is based on the assumption that the markets are highly efficient (i.e., Efficient Market Hypothesis), which suggests that stock prices are uncorrelated to one another across time. As a result, Geometric Brownian Motion (GBM) also has been assumed. However, the assumption isoften violated in practice, leading to numerous variations of the Black-Scholes model. 
+**The Black Scholes model** is used to price put and call options by estimating the variation over time said financial instruments. The model is based on the assumption that the markets are highly efficient (i.e., Efficient Market Hypothesis), which suggests that stock prices are uncorrelated to one another across time. As a result, Geometric Brownian Motion (GBM) also has been assumed. However, the assumption is often violated in practice, leading to numerous variations of the Black-Scholes model. 
 
 The **Black-Scholes formula for European call and put options** are:
 
