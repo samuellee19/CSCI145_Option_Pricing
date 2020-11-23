@@ -1,19 +1,13 @@
 ---
 title: "About This Project"
 description: |
-  This project is conducted by [Juan Diego Herrera](https://github.com/jknaudt21) and [Seungho (Samuel) Lee](https://github.com/samuellee19). Here, we expand upon Robert Culkin's and Sanjiv R. Das' effort to recreate [the Black-Scholes option pricing model using neural networks](https://srdas.github.io/Papers/BlackScholesNN.pdf).
+  CSCI145 Fall 2020 - Option Pricing Project
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-This project was conducted as a final project for CSCI145, Fall 2020 at Claremont McKenna College.   
+This project is conducted by [Juan Diego Herrera](https://github.com/jknaudt21) and [Seungho (Samuel) Lee](https://github.com/samuellee19). Here, we expand upon Robert Culkin's and Sanjiv R. Das' effort to recreate [the Black-Scholes option pricing model using neural networks](https://srdas.github.io/Papers/BlackScholesNN.pdf).
 
-Contributors to this project include:      
-- **Juan Diego Herrera**, Claremont McKenna College      
-- **Seungho (Samuel) Lee**, Claremont McKenna College   
-
-Hence, more detailed repository can be reached by clicking on GitHub logo right next to `About` tab on top of this website.     
-
-For further inquiry, please contact slee19@students.cmc.edu
+Hence, a more detailed repository can be reached by clicking on GitHub logo right next to `About` tab on top of this website.     
