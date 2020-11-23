@@ -1,8 +1,8 @@
-# CSCI145 Final Project - Juan Diego Herrerra and Seungho (Samuel) Lee
+## CSCI145 Final Project - Juan Diego Herrerra and Seungho (Samuel) Lee
 
 The followings are the list of files used in this project.
 
-## Data
+### Data
 The following data were collected through following methods: Simulation (provided by Professor Das), Bloomberg Query (UKX Option), and Web Scraping (S&P500).
 
 Files:
