@@ -1,0 +1,19 @@
+---
+title: "About This Project"
+description: |
+  Finalized on December 20, 2019
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+This project was conducted as a final project for ECON122, Fall 2019 at Claremont McKenna College.   
+
+Contributors to this project include:      
+- **Priyanka Agarwal**, Harvey Mudd College     
+- **Seungho (Samuel) Lee**, Claremont McKenna College   
+
+Hence, more detailed repository can be reached by clicking on GitHub logo right next to `About` tab on top of this website.     
+
+For further inquiry, please contact slee19@students.cmc.edu 

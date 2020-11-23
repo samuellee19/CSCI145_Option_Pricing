@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>CSCI145 - Option Pricing: Recreation of Professor Das' Deep Learning Application on the Black-Scholes Model</title>
+  
+  <meta property="description" itemprop="description" content="This project is conducted by [Juan Diego Herrera](https://github.com/jknaudt21) and [Seungho (Samuel) Lee](https://github.com/samuellee19). Here, we expand upon Robert Culkin&#39;s and Sanjiv R. Das&#39; effort to recreate [the Black-Scholes option pricing model using neural networks](https://srdas.github.io/Papers/BlackScholesNN.pdf)."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-11-23"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-11-23"/>
+  <meta name="article:author" content="Seungho (Samuel) Lee"/>
+  <meta name="article:author" content="Juan Diego Herrera"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="CSCI145 - Option Pricing: Recreation of Professor Das&#39; Deep Learning Application on the Black-Scholes Model"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="This project is conducted by [Juan Diego Herrera](https://github.com/jknaudt21) and [Seungho (Samuel) Lee](https://github.com/samuellee19). Here, we expand upon Robert Culkin&#39;s and Sanjiv R. Das&#39; effort to recreate [the Black-Scholes option pricing model using neural networks](https://srdas.github.io/Papers/BlackScholesNN.pdf)."/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:site_name" content="CSCI145 - Option Pricing"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="CSCI145 - Option Pricing: Recreation of Professor Das&#39; Deep Learning Application on the Black-Scholes Model"/>
+  <meta property="twitter:description" content="This project is conducted by [Juan Diego Herrera](https://github.com/jknaudt21) and [Seungho (Samuel) Lee](https://github.com/samuellee19). Here, we expand upon Robert Culkin&#39;s and Sanjiv R. Das&#39; effort to recreate [the Black-Scholes option pricing model using neural networks](https://srdas.github.io/Papers/BlackScholesNN.pdf)."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Recreation of Professor Das' Deep Learning Application on the Black-Scholes Model"]},{"type":"character","attributes":{},"value":["This project is conducted by [Juan Diego Herrera](https://github.com/jknaudt21) and [Seungho (Samuel) Lee](https://github.com/samuellee19). Here, we expand upon Robert Culkin's and Sanjiv R. Das' effort to recreate [the Black-Scholes option pricing model using neural networks](https://srdas.github.io/Papers/BlackScholesNN.pdf).\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Seungho (Samuel) Lee"]},{"type":"character","attributes":{},"value":["mailto:slee19@students.cmc.edu"]},{"type":"character","attributes":{},"value":["Claremont McKenna College"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Juan Diego Herrera"]},{"type":"character","attributes":{},"value":["mailto:jknaudt21@students.cmc.edu"]},{"type":"character","attributes":{},"value":["Claremont McKenna College"]}]}]},{"type":"character","attributes":{},"value":["2020-11-23"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  <!--radix_placeholder_navigation_in_header-->
+  
+  <script type="application/javascript">
+  
+    window.headroom_prevent_pin = false;
+  
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+  
+      // initialize headroom for banner
+      var header = $('header').get(0);
+      var headerHeight = header.offsetHeight;
+      var headroom = new Headroom(header, {
+        onPin : function() {
+          if (window.headroom_prevent_pin) {
+            window.headroom_prevent_pin = false;
+            headroom.unpin();
+          }
+        }
+      });
+      headroom.init();
+      if(window.location.hash)
+        headroom.unpin();
+      $(header).addClass('headroom--transition');
+  
+      // offset scroll location for banner on hash change
+      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+      window.addEventListener("hashchange", function(event) {
+        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+      });
+  
+      // responsive menu
+      $('.distill-site-header').each(function(i, val) {
+        var topnav = $(this);
+        var toggle = topnav.find('.nav-toggle');
+        toggle.on('click', function() {
+          topnav.toggleClass('responsive');
+        });
+      });
+  
+      // nav dropdowns
+      $('.nav-dropbtn').click(function(e) {
+        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+        $(this).parent().siblings('.nav-dropdown')
+           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $("body").click(function(e){
+        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $(".nav-dropdown").click(function(e){
+        e.stopPropagation();
+      });
+    });
+  </script>
+  
+  <style type="text/css">
+  
+  /* Theme (user-documented overrideables for nav appearance) */
+  
+  .distill-site-nav {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: #455a64;
+    font-size: 15px;
+    font-weight: 300;
+  }
+  
+  .distill-site-nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .distill-site-nav a:hover {
+    color: white;
+  }
+  
+  @media print {
+    .distill-site-nav {
+      display: none;
+    }
+  }
+  
+  .distill-site-header {
+  
+  }
+  
+  .distill-site-footer {
+  
+  }
+  
+  
+  /* Site Header */
+  
+  .distill-site-header {
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 3;
+  }
+  
+  .distill-site-header .nav-left {
+    display: inline-block;
+    margin-left: 8px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header .nav-left {
+      margin-left: 0;
+    }
+  }
+  
+  
+  .distill-site-header .nav-right {
+    float: right;
+    margin-right: 8px;
+  }
+  
+  .distill-site-header a,
+  .distill-site-header .title {
+    display: inline-block;
+    text-align: center;
+    padding: 14px 10px 14px 10px;
+  }
+  
+  .distill-site-header .title {
+    font-size: 18px;
+  }
+  
+  .distill-site-header .logo {
+    padding: 0;
+  }
+  
+  .distill-site-header .logo img {
+    display: none;
+    max-height: 20px;
+    width: auto;
+    margin-bottom: -4px;
+  }
+  
+  .distill-site-header .nav-image img {
+    max-height: 18px;
+    width: auto;
+    display: inline-block;
+    margin-bottom: -3px;
+  }
+  
+  
+  
+  @media screen and (min-width: 1000px) {
+    .distill-site-header .logo img {
+      display: inline-block;
+    }
+    .distill-site-header .nav-left {
+      margin-left: 20px;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 20px;
+    }
+    .distill-site-header .title {
+      padding-left: 12px;
+    }
+  }
+  
+  
+  .distill-site-header .nav-toggle {
+    display: none;
+  }
+  
+  .nav-dropdown {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .nav-dropdown .nav-dropbtn {
+    border: none;
+    outline: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 16px 10px;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    margin-top: 1px;
+    z-index: 2;
+  }
+  
+  .nav-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1;
+    margin-top: 2px;
+    white-space: nowrap;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  
+  .nav-dropdown-content hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-dropdown-active {
+    display: block;
+  }
+  
+  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+    color: black;
+    padding: 6px 24px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .nav-dropdown-content .nav-dropdown-header {
+    display: block;
+    padding: 5px 24px;
+    padding-bottom: 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #999999;
+    white-space: nowrap;
+  }
+  
+  .nav-dropdown:hover .nav-dropbtn {
+    color: white;
+  }
+  
+  .nav-dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .nav-right .nav-dropdown-content {
+    margin-left: -45%;
+    right: 0;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+    .distill-site-header a.nav-toggle {
+      float: right;
+      display: block;
+    }
+    .distill-site-header .title {
+      margin-left: 0;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 0;
+    }
+    .distill-site-header {
+      overflow: hidden;
+    }
+    .nav-right .nav-dropdown-content {
+      margin-left: 0;
+    }
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header.responsive {position: relative;}
+    .distill-site-header.responsive a.nav-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .distill-site-header.responsive a,
+    .distill-site-header.responsive .nav-dropdown {
+      display: block;
+      text-align: left;
+    }
+    .distill-site-header.responsive .nav-left,
+    .distill-site-header.responsive .nav-right {
+      width: 100%;
+    }
+    .distill-site-header.responsive .nav-dropdown {float: none;}
+    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+  }
+  
+  /* Site Footer */
+  
+  .distill-site-footer {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 3;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+  
+  /* Headroom */
+  
+  d-title {
+    padding-top: 6rem;
+  }
+  
+  @media print {
+    d-title {
+      padding-top: 4rem;
+    }
+  }
+  
+  .headroom {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .headroom--transition {
+    transition: all .4s ease-in-out;
+  }
+  
+  .headroom--unpinned {
+    top: -100px;
+  }
+  
+  .headroom--pinned {
+    top: 0;
+  }
+  
+  </style>
+  
+  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Recreation of Professor Das' Deep Learning Application on the Black-Scholes Model","description":"This project is conducted by [Juan Diego Herrera](https://github.com/jknaudt21) and [Seungho (Samuel) Lee](https://github.com/samuellee19). Here, we expand upon Robert Culkin's and Sanjiv R. Das' effort to recreate [the Black-Scholes option pricing model using neural networks](https://srdas.github.io/Papers/BlackScholesNN.pdf).","authors":[{"author":"Seungho (Samuel) Lee","authorURL":"mailto:slee19@students.cmc.edu","affiliation":"Claremont McKenna College","affiliationURL":"#"},{"author":"Juan Diego Herrera","authorURL":"mailto:jknaudt21@students.cmc.edu","affiliation":"Claremont McKenna College","affiliationURL":"#"}],"publishedDate":"2020-11-23T00:00:00.000+09:00","citationText":"Lee & Herrera, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="index.html" class="title">CSCI145 - Option Pricing</a>
+</div>
+<div class="nav-right">
+<a href="index.html">Option Pricing Project</a>
+<a href="about.html">About</a>
+<a href="https://github.com/samuellee19/CSCI145_Option_Pricing">
+<i class="fab fa-github"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Recreation of Professor Das’ Deep Learning Application on the Black-Scholes Model</h1>
+<p>This project is conducted by <a href="https://github.com/jknaudt21">Juan Diego Herrera</a> and <a href="https://github.com/samuellee19">Seungho (Samuel) Lee</a>. Here, we expand upon Robert Culkin’s and Sanjiv R. Das’ effort to recreate <a href="https://srdas.github.io/Papers/BlackScholesNN.pdf">the Black-Scholes option pricing model using neural networks</a>.</p>
+</div>
+
+<div class="d-byline">
+  Seungho (Samuel) Lee <a href="mailto:slee19@students.cmc.edu" class="uri">mailto:slee19@students.cmc.edu</a> (Claremont McKenna College)
+  
+,   Juan Diego Herrera <a href="mailto:jknaudt21@students.cmc.edu" class="uri">mailto:jknaudt21@students.cmc.edu</a> (Claremont McKenna College)
+  
+<br/>2020-11-23
+</div>
+
+<div class="d-article">
+<h2 id="project-overview">Project Overview</h2>
+<h3 id="background">Background</h3>
+<p><strong>The Black Scholes model</strong> is used to price put and call options by estimating the variation over time said financial instruments. The model is based on the assumption that the markets are highly efficient (i.e., Efficient Market Hypothesis), which suggests that stock prices are uncorrelated to one another across time. As a result, Geometric Brownian Motion (GBM) also has been assumed. However, the assumption isoften violated in practice, leading to numerous variations of the Black-Scholes model.</p>
+<p>The <strong>Black-Scholes formula for European call and put options</strong> are:</p>
+<p><span class="math display">\[C(S_0,t)=S_0N(d_1)-Ke^{-r(T-t)}N(d_2)\]</span> <span class="math display">\[P(S_0,t)=Ke^{-r(T-t)}N(-d_2)-S_0N(-d_1)\]</span> where<br />
+- <span class="math inline">\(S_0\)</span>: Stock Price<br />
+- <span class="math inline">\(C(S_0,t)\)</span>: Price of the Call Option<br />
+- <span class="math inline">\(K\)</span>: Exercise Price<br />
+- <span class="math inline">\((T-t)\)</span>: Time to Maturity, where T is Exercise Date<br />
+- <span class="math inline">\(\sigma\)</span>: Underlying Volatility (a standard deviation of log returns)<br />
+- <span class="math inline">\(r\)</span>: Risk-free Interest Rate (i.e., T-bill Rate)<br />
+</p>
+<p>The <span class="math inline">\(d_i\)</span> variables are defined as: <span class="math display">\[d_1=\frac{\ln\frac{S_0}{K}+(r+\frac{\sigma^2}{2})(T-t)}{\sigma\sqrt{T-t}}\]</span> <span class="math display">\[d_2=d_1-\sigma\sqrt{T-t}=\frac{\ln\frac{S_0}{K}+(r-\frac{\sigma^2}{2})(T-t)}{\sigma\sqrt{T-t}}\]</span></p>
+<p>Finally, <span class="math inline">\(N(x)\)</span> is cumulative distribution function for the standard normal distribution.</p>
+<h3 id="project-objectives">Project Objectives</h3>
+<p>In this project, we aim to do the following:<br />
+1. Recreate Culkin and Das’ work<br />
+2. See whether fitted simulated model performs well on actual data<br />
+3. Observe if the model can perform better based on different datasets</p>
+<h2 id="methodologies">Methodologies</h2>
+<h3 id="data">Data</h3>
+<p>To recreate Culkin and Das’ work we utilized the same simulated data used in the paper to train and validate the neural network.</p>
+<p>Aditionally, we queried UKX options data and the options’ underlying stock infromation from Bloomberg (see Bloomberg Query File). We also created another dataset by <a href="https://github.com/jknaudt21/Option-Scraper-BlackScholes">scraping</a> information for S&amp;P500 companies from Yahoo Finance and AlphaQuery.</p>
+<h4 id="culkin-and-das-2017">1. Culkin and Das (2017)</h4>
+<p>To train a neural network to learn the call option pricing equation, Culkin and Das (2017) simulated a range of call option prices with ranges of different parameters:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Stock Price <span class="math inline">\((S)\)</span></td>
+<td style="text-align: left;">$10 — $50</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Strike Price <span class="math inline">\((K)\)</span></td>
+<td style="text-align: left;">$7 — $650</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Maturity <span class="math inline">\((T-t)\)</span></td>
+<td style="text-align: left;">1 day to 3 years</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dividend Rate <span class="math inline">\((q)\)</span></td>
+<td style="text-align: left;">0% — 3%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Risk Free Rate <span class="math inline">\((r)\)</span></td>
+<td style="text-align: left;">1% — 3%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Volatility <span class="math inline">\((\sigma)\)</span></td>
+<td style="text-align: left;">5% — 90%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Call Price <span class="math inline">\((C)\)</span></td>
+<td style="text-align: left;">$0 — $328</td>
+</tr>
+</tbody>
+</table>
+<p>In total, the dataset contains 300,000 observations.</p>
+<h4 id="ukx-bloomberg-data">2. UKX Bloomberg Data</h4>
+<p>This data is consisted of call options for stocks in the UKX 100 from Bloomberg Terminal. As Bloomberg Terminal has an upper bound for queries, this data only consists of 1600+ observations.</p>
+<h4 id="sp-500-scraped-data">3. S&amp;P 500 Scraped Data</h4>
+<p>To address a limited number of observations on the above data, we collected additional data through web scraping. Although web data may be imperfect, it can still hold useful information. For this dataset there are 57,000+ observations and we evaluate it separately from the addendum of UKX data.</p>
+<h2 id="code">Code</h2>
+<p>We used following dependencies and <code>scikit-learn</code>’s prebuilt models to train and visualize our results:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+import numpy as np
+from sklearn.neural_network import MLPRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+import pandas as pd
+import matplotlib.pyplot as plt
+import pickle
+from scipy import stats
+import matplotlib
+matplotlib.rcParams[&#39;figure.dpi&#39;] = 300</code></pre>
+</div>
+<h3 id="importing-and-preparing-training-data">Importing and Preparing Training Data</h3>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 11%" />
+<col style="width: 12%" />
+<col style="width: 8%" />
+<col style="width: 9%" />
+<col style="width: 10%" />
+<col style="width: 9%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Index</th>
+<th>Stock Price</th>
+<th>Strike Price</th>
+<th>Maturity</th>
+<th>Dividends</th>
+<th>Volatility</th>
+<th>Risk-free</th>
+<th>Call Price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td>206.484</td>
+<td>194.386</td>
+<td>1.093</td>
+<td>0.006</td>
+<td>0.863</td>
+<td>0.059</td>
+<td>79.434</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td>79.582</td>
+<td>73.926</td>
+<td>0.844</td>
+<td>0.020</td>
+<td>0.760</td>
+<td>0.081</td>
+<td>24.976</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2</td>
+<td>130.957</td>
+<td>154.101</td>
+<td>1.326</td>
+<td>0.019</td>
+<td>0.606</td>
+<td>0.042</td>
+<td>28.928</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3</td>
+<td>53.021</td>
+<td>58.598</td>
+<td>0.792</td>
+<td>0.028</td>
+<td>0.573</td>
+<td>0.037</td>
+<td>8.574</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">4</td>
+<td>455.191</td>
+<td>529.570</td>
+<td>0.501</td>
+<td>0.009</td>
+<td>0.091</td>
+<td>0.044</td>
+<td>0.210</td>
+</tr>
+</tbody>
+</table>
+<p>The original dataset contains an unnecessary index column, so we dropped it from the data frame.</p>
+<h4 id="normalizing-the-data-as-done-in-culkin-and-das">Normalizing the data (as done in Culkin and Das)</h4>
+<p>As we know that the Black-Scholes formula is linear homogeneous in <span class="math inline">\(C(S,K)\)</span>, we can normalize our data as: <span class="math inline">\(C(S,K)/K=C(S/K,1)\)</span></p>
+<p>Hence, the results are shown below:</p>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 11%" />
+<col style="width: 12%" />
+<col style="width: 8%" />
+<col style="width: 9%" />
+<col style="width: 10%" />
+<col style="width: 9%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Index</th>
+<th>Stock Price</th>
+<th>Strike Price</th>
+<th>Maturity</th>
+<th>Dividends</th>
+<th>Volatility</th>
+<th>Risk-free</th>
+<th>Call Price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td>1.062</td>
+<td>1.0</td>
+<td>1.093</td>
+<td>0.006</td>
+<td>0.863</td>
+<td>0.059</td>
+<td>0.409</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td>1.077</td>
+<td>1.0</td>
+<td>0.844</td>
+<td>0.020</td>
+<td>0.760</td>
+<td>0.081</td>
+<td>0.338</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2</td>
+<td>0.850</td>
+<td>1.0</td>
+<td>1.326</td>
+<td>0.019</td>
+<td>0.606</td>
+<td>0.042</td>
+<td>0.188</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3</td>
+<td>0.905</td>
+<td>1.0</td>
+<td>0.792</td>
+<td>0.028</td>
+<td>0.573</td>
+<td>0.037</td>
+<td>0.146</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">4</td>
+<td>0.860</td>
+<td>1.0</td>
+<td>0.501</td>
+<td>0.009</td>
+<td>0.091</td>
+<td>0.044</td>
+<td>0.000</td>
+</tr>
+</tbody>
+</table>
+<h3 id="training-the-model">Training the model</h3>
+<p>To remain as faithful to Culkin and Das, we trained the neural network with the following parameters:<br />
+- 4 hidden fully connected layers, each with 100 neurons<br />
+- Batch size of 64<br />
+- 10 training epochs<br />
+- 80-20 train-validation split<br />
+- Mean Squared error as loss function</p>
+<p>The main difference between our model and the paper’s model is that our network uses ReLU as the activation function for every layer, instead of using LeakyReLU, ELU, ReLU, and ELU for the four layers respectively. We also did not employ dropout regularization. Lastly, we opted to use “Adam” as our optimizer rather than stochastic gradient descent.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+np.random.seed(32)
+X_train, X_test, y_train, y_test = train_test_split(df.drop(&#39;Call Price&#39;, axis=1), 
+                                                    df[&#39;Call Price&#39;], test_size=0.2)
+
+mlp = MLPRegressor(hidden_layer_sizes=(100,100,100,100), 
+                   solver=&#39;adam&#39;, shuffle = False, batch_size=64, verbose=True,
+                   max_iter= 10
+                    ) </code></pre>
+</div>
+<h2 id="analysis-and-visualization">Analysis and Visualization</h2>
+<p>We started by exploring the most basic performance metric for every regression problem: <span class="math inline">\(R^2\)</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+print(&quot;Training set score: %f&quot; % mlp.score(X_train, y_train))
+print(&quot;Test set score: %f&quot; % mlp.score(X_test, y_test))</code></pre>
+</div>
+<p>We received <span class="math inline">\(R^2\)</span> values (training and test) of 0.999476 and 0.999474.</p>
+<p>We can see that the model produced very promising results from the simulated data. While the results show that the algorithm is able to learn option pricing mechanism, we cannot draw any significant conclusion that it can produce meaningful results in real life situation.</p>
+<p>We can visualize the succes of the model in the graph below:</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="BS_Model_draft/output_27_0.png" width="257" /></p>
+</div>
+<p>We can also explore the distribution of both the in-sample and out of sample error:</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="BS_Model_draft/output_29_0.png" width="268" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="BS_Model_draft/output_30_0.png" width="268" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+rmse = mean_squared_error(preds_test, y_test)**0.5; rmse # root mean squared error
+print(&quot;RMSE: %.4f&quot; % rmse)</code></pre>
+</div>
+<p>Root Mean Square Error of the prediction is 0.0041. Hence, the pricing error in the training set can be summarized as below:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Number of Observations</th>
+<th>minmax</th>
+<th>mean</th>
+<th>variance</th>
+<th>skewness</th>
+<th>kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">240,000</td>
+<td>(-0.045, 0.039)</td>
+<td>-0.003</td>
+<td>0.000007</td>
+<td>-0.400</td>
+<td>12.084</td>
+</tr>
+</tbody>
+</table>
+<p>The pricing error in the test set can be summarized as below:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Number of Observations</th>
+<th>minmax</th>
+<th>mean</th>
+<th>variance</th>
+<th>skewness</th>
+<th>kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>11,841</td>
+<td>(-1.407,204.185)</td>
+<td>0.091</td>
+<td>10.957</td>
+<td>54.036</td>
+<td>3,074.578</td>
+</tr>
+</tbody>
+</table>
+<h2 id="validating-with-real-data">Validating with real data</h2>
+<p>So far, we have observed the behavior of the model using the synthetic data. Though the use of synthetic data has allowed us to learn the Black-Scholes model quite accurately, we have yet to see how the model performs using real data. Plus, we could also gauge whether models trained in real data are able to better price options in the market.</p>
+<p>Nonetheless, it is worth noting that a common option trading strategy is to determine whether an option is undervalued or fairly valued with respect to the market’s price and the price outputed by Black-Scholes. With this in mind, if our model misprices an option with a higher price, it could be an indicator that said option is undervalued.</p>
+<p><strong>Important</strong>: by the time the data for this article was collected, the current risk-free rate was 0.88%.</p>
+<h3 id="ukx-bloomberg-data-1">UKX Bloomberg Data</h3>
+<p>To start the validation, we pulled options data using a Bloomberg terminal. To limit the size of query, we extracted the data for around ~1600 calls on stocks in the UKX100.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Stock Price</th>
+<th>Strike Price</th>
+<th>Maturity</th>
+<th>Dividends</th>
+<th>Volatility</th>
+<th>Risk-free</th>
+<th>Call Price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>4,732.0</td>
+<td>1.0</td>
+<td>0.09</td>
+<td>0.000000</td>
+<td>0.392</td>
+<td>0.0088</td>
+<td>4,731.0</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>4,732.0</td>
+<td>1.0</td>
+<td>0.34</td>
+<td>11.949099</td>
+<td>0.392</td>
+<td>0.0088</td>
+<td>4,731.0</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>4,732.0</td>
+<td>1.0</td>
+<td>0.02</td>
+<td>0.000000</td>
+<td>0.392</td>
+<td>0.0088</td>
+<td>4,731.0</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>2,094.0</td>
+<td>1.0</td>
+<td>0.09</td>
+<td>0.000000</td>
+<td>0.530</td>
+<td>0.0088</td>
+<td>2,093.0</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>2,094.0</td>
+<td>1.0</td>
+<td>0.34</td>
+<td>4.424667</td>
+<td>0.530</td>
+<td>0.0088</td>
+<td>2,093.0</td>
+</tr>
+</tbody>
+</table>
+<p>Though it might seem that this data is normalized already, such is not the case. Therfore, we normalize the data by dividing by the strike.</p>
+<p>We proceeded with dropping <code>Call Price</code> column on the data and predicted to see how the model performs.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="BS_Model_draft/output_40_0.png" width="263" /></p>
+</div>
+<p>From a quick glance, there seems to be some minor deviations. In fact, we got <span class="math inline">\(R^2\)</span> value of 0.8699. We can also see the distribution of the errors. Since the simulated data were not generated under a normal distribution, it would not be surprising to observe a skewed distribution:</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="BS_Model_draft/output_44_0.png" width="263" /></p>
+</div>
+<p>While the model performed worse relative to previous sample, it still achieved a high R-squared value considering that the training data and the test data came from different sources. Hence, the above graph is summarized as below:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Number of Observations</th>
+<th>minmax</th>
+<th>mean</th>
+<th>variance</th>
+<th>skewness</th>
+<th>kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1,685</td>
+<td>(-3,088.616,0.352)</td>
+<td>-28.828</td>
+<td>44,608.131</td>
+<td>-10.457</td>
+<td>123.588</td>
+</tr>
+</tbody>
+</table>
+<p>It makes sense that a model trained from the simulated data would perform relatively bad. However, a real question is whether neural network can perform well given real data that is not normally distributed.</p>
+<p>To mitigate the effect of having less data, we increased the number of epochs:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+np.random.seed(32)
+X_train_ukx, X_test_ukx, y_train_ukx, y_test_ukx = train_test_split(ukx.drop(&#39;Call Price&#39;, axis=1), 
+                                                    ukx[&#39;Call Price&#39;], test_size=0.2)
+
+mlp_u = MLPRegressor(hidden_layer_sizes=(100,100,100,100), 
+                   solver=&#39;adam&#39;, shuffle = False, batch_size=64, verbose=True,
+                   max_iter= 20
+                    )
+
+mlp_u.fit(X_train_ukx, y_train_ukx)</code></pre>
+</div>
+<p>Hence, the model achieved <span class="math inline">\(R^2\)</span> values of 0.999998 and 0.999998 for training and testing sets.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="BS_Model_draft/output_51_0.png" width="259" /></p>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th>Number of Observations</th>
+<th>minmax</th>
+<th>mean</th>
+<th>variance</th>
+<th>skewness</th>
+<th>kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>337</td>
+<td>(-0.316,9.836)</td>
+<td>0.164</td>
+<td>0.804</td>
+<td>7.901</td>
+<td>69.226</td>
+</tr>
+</tbody>
+</table>
+<p>From the above, we can see that the model was able to perform very well, given that there were only 1,685 observations used for training the model. However, one thing to note is that the result exhibits a very <strong>high kurtosis</strong>: while the model is consistent in most cases, it could lead to a severe gain/loss (long tails) from time to time. In real-life application, such model will not be preferred by the practitioners as the <strong>expected values of risk associated with investment strategies utilizing the model above will be hard to capture via traditional financial models</strong>, such as Value-at-Risk (VaR).</p>
+<h2 id="sp500-scraped-data">S&amp;P500 Scraped Data</h2>
+<p>To finalize the exploration on the performance of this model, we will see how the model behaves when put it against data scraped from S&amp;P500 options.</p>
+<p>To gather the data and generate the dataset, we created <a href="https://github.com/jknaudt21/Option-Scraper-BlackScholes">this scraping algorithm</a>. We made a dataset of ~57,000 entries.</p>
+<p>Taking a same approach as the above, we began with a normalization process of the data:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Stock Price</th>
+<th>Strike Price</th>
+<th>Maturity</th>
+<th>Dividends</th>
+<th>Volatility</th>
+<th>Risk-free</th>
+<th>Call Price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>21.990000</td>
+<td>1.0</td>
+<td>0.005616</td>
+<td>0.0275</td>
+<td>0.3434</td>
+<td>0.0088</td>
+<td>22.600000</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>4.398000</td>
+<td>1.0</td>
+<td>0.005616</td>
+<td>0.0275</td>
+<td>0.3434</td>
+<td>0.0088</td>
+<td>2.420000</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>3.141429</td>
+<td>1.0</td>
+<td>0.005616</td>
+<td>0.0275</td>
+<td>0.3434</td>
+<td>0.0088</td>
+<td>1.571429</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>2.443333</td>
+<td>1.0</td>
+<td>0.005616</td>
+<td>0.0275</td>
+<td>0.3434</td>
+<td>0.0088</td>
+<td>1.233333</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>2.199000</td>
+<td>1.0</td>
+<td>0.005616</td>
+<td>0.0275</td>
+<td>0.3434</td>
+<td>0.0088</td>
+<td>1.260000</td>
+</tr>
+</tbody>
+</table>
+<p>After the normalization, we proceeded with predicting <code>Call Price</code> from the S&amp;P data, using an original model:</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="BS_Model_draft/output_57_0.png" width="255" /></p>
+</div>
+<p>From the above, we can see that there seems to be more deviations than predictions made on previous data. To assess a relationship between the In-The-Money (ITM) call options and the Out-of-The-Money (OTM) call options, we plotted a new graph that is focused on a bottom-left cluster. In usual cases, OTM call options would have higher prices than the predicted points:</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="BS_Model_draft/output_59_0.png" width="269" /></p>
+</div>
+<p>The above graph exhibits what we have discussed in the above. Furthermore, while a variation is relatively higher, the model seems to find some success. In fact, we can see that the <span class="math inline">\(R^2\)</span> value is 0.8818.</p>
+<p>The results are outstandingly similar to the UKX. This is indicative that the model might be missing feature data to increase accuracy. Regardless, an <span class="math inline">\(R^2\)</span> of 88% is still impressive as it is hard to capture a high <span class="math inline">\(R^2\)</span> value using real data and traditional financial economic models.</p>
+<p>Lastly, we observed a distribution of the pricing errors:</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="BS_Model_draft/output_63_0.png" width="268" /></p>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th>Number of Observations</th>
+<th>minmax</th>
+<th>mean</th>
+<th>variance</th>
+<th>skewness</th>
+<th>kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>57,516</td>
+<td>(-19.509,10.407)</td>
+<td>-0.031</td>
+<td>0.080</td>
+<td>-29.561</td>
+<td>1,739.708</td>
+</tr>
+</tbody>
+</table>
+<p>Due to a presence of extreme values on both tails, the distribution shows high skewness and kurtosis. However, it also exhibits considerably low variance, suggesting that the model predicted fairly accurately, except for some extreme cases.</p>
+<h2 id="training-with-real-data">Training with real data</h2>
+<p>In this section, we checked whether a model trained on real data performs significantly better than a model trained on the synthetic data. For this analysis we concatenated the <code>UKX</code> and <code>SNP</code> data into a larger dataset.</p>
+<p>To compensate for a lack of data, we trained the model longer by increasing the number of epochs.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+np.random.seed(32)
+df2 = pd.concat([ukx, snp])
+X_train2, X_test2, y_train2, y_test2 = train_test_split(df2.drop(&#39;Call Price&#39;, axis=1), 
+                                                    df2[&#39;Call Price&#39;], test_size=0.2)
+
+mlp2 = MLPRegressor(hidden_layer_sizes=(100,100,100,100), 
+                   solver=&#39;adam&#39;, shuffle = False, batch_size=64, verbose=False,
+                   max_iter= 20
+                    ) 
+
+mlp2.fit(X_train2, y_train2)</code></pre>
+</div>
+<p>Hence, the model achieved <span class="math inline">\(R^2\)</span> values of 0.999435 and 0.999439 for training and testing sets. Surprisingly, we observed from the above that there was an insignificant difference in a performance between the two models. Furthermore, we analyzed the pricing error of the real data model:</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="BS_Model_draft/output_70_0.png" width="268" /></p>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th>Number of Observations</th>
+<th>minmax</th>
+<th>mean</th>
+<th>variance</th>
+<th>skewness</th>
+<th>kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>11,841</td>
+<td>(-1.407,204.185)</td>
+<td>0.091</td>
+<td>10.957</td>
+<td>54.036</td>
+<td>3,074.578</td>
+</tr>
+</tbody>
+</table>
+<p>We observed a similar distribution as before, even if a few outliers are cropped out. Finally, for an icing on the cake, we applied the final model on the <strong>simulation data</strong>.</p>
+<p>As the model achieved the <span class="math inline">\(R^2\)</span> value of 0.8296, we observed that the model performed slightly weaker, a similar result that we had seen from the above predictions.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="BS_Model_draft/output_75_0.png" width="263" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="BS_Model_draft/output_76_0.png" width="255" /></p>
+</div>
+<p>Interestingly, we see a quite similar behavior to the model trained on synthetic (yet less noisy) data. Since we are only looking at portion of the SNP and UKX data, something worth exploring would be to scrape all of the SNP data and test the model again.</p>
+<p>Regardless, we’ve shown that <strong>real options data follows somewhat closely the guidelines established by Black-Scholes</strong>, and that in this case, training on real data is better than training on synthetic data.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this research project, we validated Culkin and Das conclusion: a machine learning field is facing a rebirth that has found applications in highly dynamic fields such as finance. Certain financial pricing schemes could be non-linear (e.g., Black-Scholes) and undergo a significant amount of calculation to reach a conclusion. However, neural networks can learn and predict non-linear behavior fairly accurately, which can be seen from a relatively high <span class="math inline">\(R^2\)</span> values of the above models.</p>
+<p>However, we also saw that the fitted models produced drastically different test accuracies, depending on a seed level, and that the error distributions of those models exhibited high skewedness and kurtosis. Therefore, more consistent models could be generated through optimizing hyperparameters and conducting a comprehensive data transformation process. It is also important to note that the above models failed to fit all options with different maturities and strikes.</p>
+<p>In theory, it is well regarded that it is nearly impossible to predict stock prices in consistent manner as the actual market is highly efficient (i.e., Efficient Market Hypothesis). Plus, a high level of noise exists in real data. Therefore, creating a model that predicts stock prices in a very consistent manner would be extremely difficult to create, yet would yield inmense monetary benefits.</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

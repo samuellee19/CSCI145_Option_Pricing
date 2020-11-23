@@ -1,0 +1,14 @@
+name: "CSCI145_Option_Pricing"
+title: "CSCI145 - Option Pricing"
+description: |
+  CSCI145 - Option Pricing Project
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Option Pricing Project"
+      href: index.html
+    - text: "About"
+      href: about.html
+    - icon: fab fa-github
+      href: https://github.com/samuellee19/CSCI145_Option_Pricing
+output: distill::distill_article
