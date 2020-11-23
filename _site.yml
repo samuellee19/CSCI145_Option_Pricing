@@ -3,6 +3,7 @@ title: "CSCI145 - Option Pricing"
 description: |
   CSCI145 - Option Pricing Project
 output_dir: "docs"
+google_analytics: "G-3N51CRW12R"
 navbar:
   right:
     - text: "Option Pricing Project"
