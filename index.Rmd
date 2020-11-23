@@ -362,3 +362,5 @@ In this research project, we validated Culkin and Das conclusion: a machine lear
 However, we also saw that the fitted models produced drastically different test accuracies, depending on a seed level, and that the error distributions of those models exhibited high skewedness and kurtosis. Therefore, more consistent models could be generated through optimizing hyperparameters and conducting a comprehensive data transformation process. It is also important to note that the above models failed to fit all options with different maturities and strikes. 
 
 In theory, it is well regarded that it is nearly impossible to predict stock prices in consistent manner as the actual market is highly efficient (i.e., Efficient Market Hypothesis). Plus, a high level of noise exists in real data. Therefore, creating a model that predicts stock prices in a very consistent manner would be extremely difficult to create, yet would yield inmense monetary benefits.
+
+Lastly, we would like to express our gratitude to [Professor Mike Izbicki](http://izbicki.me/) for providing overall guidance and support to this project.
