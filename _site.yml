@@ -1,7 +1,7 @@
-name: "CSCI145_Option_Pricing"
-title: "CSCI145 - Option Pricing"
+name: "Deep_Learning_Black_Scholes"
+title: "Option Pricing"
 description: |
-  CSCI145 - Option Pricing Project
+  Option Pricing: Deep Learning Application on the Black-Scholes Model
 output_dir: "docs"
 google_analytics: "G-3N51CRW12R"
 navbar:
